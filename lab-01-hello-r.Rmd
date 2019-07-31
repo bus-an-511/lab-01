@@ -32,7 +32,7 @@ The following screencast also walks you through these steps:
 
 <div style="position:relative;height:0;padding-bottom:40%"><iframe width="600" height="320" src="https://www.youtube.com/embed/8Ta_SJq3MrU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
 
-- Click on the assignment link that you should have received in your email to create your GitHub repository (which we'll refer to as "repo" going forward) for the assignment. This repo contains a template you can build on to complete your assignment.
+- Click on the assignment link that you should have received in your email to create your GitHub repository (which we'll refer to as "repo" going forward) for the assignment. This repo contains a template you can build on to complete your assignment
 
 ```{r clone-repo-link, fig.margin = TRUE, echo = FALSE, fig.width=3}
 knitr::include_graphics("img/clone-repo-link.png")
@@ -182,6 +182,9 @@ To find out more about the dataset, type the following in your Console: `?datasa
 
 1. Based on the help file, how many rows and how many columns does the `datasaurus_dozen` file have? What are the variables included in the data frame? Add your responses to your lab report. When you're done, commit your changes with the commit message "Added answer for Ex 1", and push.
 
+Rows: 1846<br>
+Variables: 3
+
 Let's take a look at what these datasets are. To do so we can make a *frequency table* of the dataset variable:
 
 ```{r}
@@ -241,9 +244,39 @@ dino_data %>%
 
 3. Plot `y` vs. `x` for the `star` dataset. You can (and should) reuse code we introduced above, just replace the dataset name with the desired dataset. Then, calculate the correlation coefficient between `x` and `y` for this dataset. How does this value compare to the `r` of `dino`?
 
+```{r fig.fullwidth=TRUE}
+star_data <- datasaurus_dozen %>%
+  filter(dataset == "star")
+
+ggplot(data = star_data, mapping = aes(x = x, y = y)) +
+  geom_point()
+
+star_data %>%
+  summarize(r = cor(x, y))
+```
+
+The two correlation coefficients are approximately equal (-0.06).
+
 *This is another good place to pause, commit changes with the commit message "Added answer for Ex 3", and push.*
 
 4. Plot `y` vs. `x` for the `circle` dataset. You can (and should) reuse code we introduced above, just replace the dataset name with the desired dataset. Then, calculate the correlation coefficient between `x` and `y` for this dataset. How does this value compare to the `r` of `dino`?
+
+```{r fig.fullwidth=TRUE}
+circle_data <- datasaurus_dozen %>%
+  filter(dataset == "circle")
+
+ggplot(data = circle_data, mapping = aes(x = x, y = y)) +
+  geom_point()
+
+star_data %>%
+  summarize(r = cor(x, y))
+```
+
+The two correlation coefficients are approximately equal (-0.06).
+
+```{r}
+glimpse(datasaurus_dozen)
+```
 
 *You should pause again, commit changes with the commit message "Added answer for Ex 4", and push.*
 
@@ -253,7 +286,7 @@ Facet by the dataset variable, placing the plots in a 3 column grid, and don't a
 
 5. Finally, let's plot all datasets at once. In order to do this we will make use of facetting.
 
-```{r all-viz, eval=FALSE, fig.fullwidth=TRUE}
+```{r all-viz, eval=TRUE, fig.fullwidth=TRUE}
 ggplot(datasaurus_dozen, aes(x = x, y = y, color = dataset))+
   geom_point()+
   facet_wrap(~ dataset, ncol = 3) +
@@ -262,7 +295,7 @@ ggplot(datasaurus_dozen, aes(x = x, y = y, color = dataset))+
 
 And we can use the `group_by` function to generate all the summary correlation coefficients.
 
-```{r all-r, eval=FALSE}
+```{r all-r, eval=TRUE}
 datasaurus_dozen %>%
   group_by(dataset) %>%
   summarize(r = cor(x, y)) %>%
@@ -283,7 +316,7 @@ Click on the gear icon in on top of the R Markdown document, and select "Output 
 knitr::include_graphics("img/fig-resize-local.png")
 ```
 
-You can also use different figure sizes for differen figures. To do so click on the gear icon within the chunk where you want to make a change. Changing the figure sizes added new options to these chunks: `fig.width` and `fig.height`. You can change them by defining different values directly in your R Markdown document as well.
+You can also use different figure sizes for different figures. To do so click on the gear icon within the chunk where you want to make a change. Changing the figure sizes added new options to these chunks: `fig.width` and `fig.height`. You can change them by defining different values directly in your R Markdown document as well.
 
 ```{r theme-highlight, fig.margin = TRUE, echo = FALSE, fig.width=3}
 knitr::include_graphics("img/theme-highlight.png")
